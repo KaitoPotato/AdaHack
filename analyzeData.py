@@ -23,34 +23,48 @@ other_data_cleaned = other_data.dropna(thresh=int(threshold * len(other_data)), 
 # Checking the structure of each dataset
 adas_data_cleaned.columns, ads_data_cleaned.columns, other_data_cleaned.columns
 
-# Compare the number of incidents reported in each category
-incident_types = ['ADAS', 'ADS', 'Other']
-incident_counts = [len(adas_data_cleaned), len(ads_data_cleaned), len(other_data_cleaned)]
+# Compare the number of incidents reported in each category (ADAS, ADS, Other)
+incident_types = ['ADAS', 'ADS', 'Other']  # Category names
+incident_counts = [len(adas_data_cleaned), len(ads_data_cleaned), len(other_data_cleaned)]  # Number of incidents in each category
 
-plt.figure(figsize=(8, 5))
-sns.barplot(x=incident_types, y=incident_counts)
-plt.title('Number of Incidents by Category')
-plt.ylabel('Number of Incidents')
-plt.show()
+# Create a bar plot showing the number of incidents by category
+plt.figure(figsize=(8, 5))  # Set figure size
+sns.barplot(x=incident_types, y=incident_counts, palette="coolwarm")  # Bar plot with custom color palette
+plt.title('Number of Incidents by Category')  # Plot title
+plt.xlabel('Incident Category')  # X-axis label
+plt.ylabel('Number of Incidents')  # Y-axis label
+plt.show()  # Display the plot
 
-# Visualizing top 10 reporting entities
-top_adas_entities = adas_data_cleaned['Reporting Entity'].value_counts().head(10)
-top_ads_entities = ads_data_cleaned['Reporting Entity'].value_counts().head(10)
-top_other_entities = other_data_cleaned['Reporting Entity'].value_counts().head(10)
+# Visualizing the top 10 reporting entities (who submitted the most reports) for each category
+# Count the occurrences of each reporting entity and extract the top 10 most frequent ones
+top_adas_entities = adas_data_cleaned['Reporting Entity'].value_counts().head(10)  # Top 10 reporting entities for ADAS
+top_ads_entities = ads_data_cleaned['Reporting Entity'].value_counts().head(10)  # Top 10 reporting entities for ADS
+top_other_entities = other_data_cleaned['Reporting Entity'].value_counts().head(10)  # Top 10 reporting entities for Other incidents
 
-plt.figure(figsize=(12, 8))
+# Create a figure with 3 subplots, one for each category
+plt.figure(figsize=(12, 8))  # Set figure size for all 3 subplots
 
-plt.subplot(3, 1, 1)
-sns.barplot(x=top_adas_entities.values, y=top_adas_entities.index)
-plt.title('Top 10 Reporting Entities (ADAS)')
+# Plot for top ADAS reporting entities
+plt.subplot(3, 1, 1)  # First subplot (1 out of 3)
+sns.barplot(x=top_adas_entities.values, y=top_adas_entities.index, palette="Blues_d")  # Bar plot for ADAS with custom blue palette
+plt.title('Top 10 Reporting Entities (ADAS)')  # Title for ADAS plot
+plt.xlabel('Number of Reports')  # X-axis label
+plt.ylabel('Reporting Entity')  # Y-axis label
 
-plt.subplot(3, 1, 2)
-sns.barplot(x=top_ads_entities.values, y=top_ads_entities.index)
-plt.title('Top 10 Reporting Entities (ADS)')
+# Plot for top ADS reporting entities
+plt.subplot(3, 1, 2)  # Second subplot (2 out of 3)
+sns.barplot(x=top_ads_entities.values, y=top_ads_entities.index, palette="Greens_d")  # Bar plot for ADS with custom green palette
+plt.title('Top 10 Reporting Entities (ADS)')  # Title for ADS plot
+plt.xlabel('Number of Reports')  # X-axis label
+plt.ylabel('Reporting Entity')  # Y-axis label
 
-plt.subplot(3, 1, 3)
-sns.barplot(x=top_other_entities.values, y=top_other_entities.index)
-plt.title('Top 10 Reporting Entities (Other Incidents)')
+# Plot for top Other incident reporting entities
+plt.subplot(3, 1, 3)  # Third subplot (3 out of 3)
+sns.barplot(x=top_other_entities.values, y=top_other_entities.index, palette="Reds_d")  # Bar plot for Other incidents with custom red palette
+plt.title('Top 10 Reporting Entities (Other Incidents)')  # Title for Other plot
+plt.xlabel('Number of Reports')  # X-axis label
+plt.ylabel('Reporting Entity')  # Y-axis label
 
-plt.tight_layout()
-plt.show()
+# Adjust the layout to avoid overlap of plot elements
+plt.tight_layout()  # Prevent overlapping of subplots
+plt.show()  # Display the entire figure with all 3 plots
